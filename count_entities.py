@@ -13,6 +13,9 @@ where the first argument is Q or P, for items or properties
 """
 Note: to do the search with grep
 grep -Po "<http://www.wikidata.org/[^>]*?(P.*?)>" | grep -oEi 'P[0-9]+'
+
+# parallel
+zcat data/2017-678_uniq.tsv.gz| parallel --pipe --block 10M python3 unquote.py | grep -P "<http://www.wikidata.org/[^>]*?P699>"
 """
 
 import sys
@@ -23,12 +26,11 @@ from urllib.parse import unquote_plus
 import pandas as pd
 from tqdm import tqdm
 
-match_char = sys.argv[1].strip()
-assert match_char in {'Q', 'P'}
-combs = int(sys.argv[2].strip())
-out_file_name = sys.argv[3]
-
-
+MATCH_CHAR = sys.argv[1].strip()
+assert MATCH_CHAR in {'Q', 'P'}
+COMBS = int(sys.argv[2].strip())
+OUT_FILE_NAME = sys.argv[3]
+CUTOFF = 10
 
 unique_count = defaultdict(int)
 total_count = defaultdict(int)
@@ -37,6 +39,8 @@ user_agent_total_count = defaultdict(lambda: defaultdict(int))
 sourceCategory_count = defaultdict(lambda: defaultdict(int))
 sourceCategory_total_count = defaultdict(lambda: defaultdict(int))
 
+re_compile = re.compile("<http://www.wikidata.org/[^>]*?({}[0-9]+?)>".format(MATCH_CHAR))
+
 for line in tqdm(sys.stdin):
     query, sourceCategory, user_agents, count = line.split("\t")
     query = unquote_plus(query).replace("\n", "\t")
@@ -44,9 +48,9 @@ for line in tqdm(sys.stdin):
     user_agents = user_agents.split(",")
 
     # Matches PIDs or QIDs, outputing all matched IDs from the same line, in the same line
-    p = re.findall("<http://www.wikidata.org/[^>]*?({}.*?)>".format(match_char), query)
+    p = re_compile.findall(query)
     # get all pairwise combinations of these IDs
-    pairs = list(combinations(p, combs))
+    pairs = list(combinations(p, COMBS))
     for pair in pairs:
         pp = "|".join(sorted(pair))
         unique_count[pp] += 1
@@ -58,13 +62,9 @@ for line in tqdm(sys.stdin):
             user_agent_total_count[user_agent][pp] += 1
 
 # this runs out of memory if we keep everything (for items, props are ok).
-# toss items with less than 0.01% of total counts
-total_unique_count = max(unique_count.values())
-total_total_count = max(total_count.values())
-unique_cutoff = total_unique_count * 0.0001
-total_cutoff = total_total_count * 0.0001
-unique_count = {k: v for k, v in unique_count.items() if v >= unique_cutoff or total_count[k] >= total_cutoff}
-total_count = {k: v for k, v in total_count.items() if v >= total_cutoff or unique_count.get(k, 0) >= unique_cutoff}
+# toss items with count < CUTOFF
+unique_count = {k: v for k, v in unique_count.items() if v >= CUTOFF or total_count[k] >= CUTOFF}
+total_count = {k: v for k, v in total_count.items() if v >= CUTOFF or unique_count.get(k, 0) >= CUTOFF}
 # filter these items out of sourceCategory and user_agent also
 keep_items = set(total_count.keys())
 do_filter = lambda d: {k: {kk: vv for kk, vv in v.items() if kk in keep_items} for k, v in d.items()}
@@ -93,4 +93,4 @@ df = df.join(user_agent_count_df)
 df = df.join(user_agent_total_count_df)
 
 df.sort_values(["unique", "total"], inplace=True, ascending=False)
-df.to_csv(out_file_name)
+df.to_csv(OUT_FILE_NAME)
