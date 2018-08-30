@@ -10,6 +10,10 @@ where the first argument is Q or P, for items or properties
 
 """
 
+"""
+Note: to do the search with grep
+grep -Po "<http://www.wikidata.org/[^>]*?(P.*?)>" | grep -oEi 'P[0-9]+'
+"""
 
 import sys
 import re
