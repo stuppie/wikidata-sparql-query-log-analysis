@@ -59,7 +59,7 @@ for line in tqdm(sys.stdin):
         sourceCategory_total_count[sourceCategory][pp] += count
         for user_agent in user_agents:
             user_agent_count[user_agent][pp] += 1
-            user_agent_total_count[user_agent][pp] += 1
+            user_agent_total_count[user_agent][pp] += count
 
 # this runs out of memory if we keep everything (for items, props are ok).
 # toss items with count < CUTOFF
