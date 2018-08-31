@@ -1,0 +1,20 @@
+9721509
+SELECT ?var1  ?var2 	WHERE {	  VALUES (  ?var2  ) {	   (  "string1" )	   (  "string2" )	   (  "string3" )	   (  "string4" )	   (  "string5" )	   (  "string6" )	   (  "string7" )	   (  "string8" )	   (  "string9" )	   (  "string10" )	   (  "string11" )	   (  "string12" )	   (  "string13" )	   (  "string14" )	   (  "string15" )	   (  "string16" )	   (  "string17" )	   (  "string18" )	   (  "string19" )	   (  "string20" )	   (  "string21" )	   (  "string22" )	   (  "string23" )	   (  "string24" )	   (  "string25" )	   (  "string26" )	   (  "string27" )	   (  "string28" )	   (  "string29" )	   (  "string30" )	  }	  ?var1  <http://www.wikidata.org/prop/direct/P434>  ?var2 .	}	
+3842106
+SELECT *	WHERE {	  ?var1  <http://www.wikidata.org/prop/direct/P496>  "string1".	}	
+3660256
+SELECT *	WHERE {	  ?var1  <http://www.wikidata.org/prop/direct/P356>  "string1".	}	
+3434186
+SELECT ?var1  ?var2  ?var3 	WHERE {	  ?var1  <http://www.wikidata.org/prop/direct/P227>  ?var4 .	  ?var5  <http://schema.org/about>  ?var1 .	 FILTER (  (  REGEX (  STR (  ?var5  ) , "string1" )  ) 	) .	  ?var1  ?var2  ?var3 .	}LIMIT 10000	OFFSET 10690000	
+1929489
+SELECT *	WHERE {	  ?var1 ( <http://www.wikidata.org/prop/P356> / <http://www.wikidata.org/prop/statement/P356> ) "string1".	}	
+1859488
+SELECT *	WHERE {	  <http://www.wikidata.org>  <http://schema.org/dateModified>  ?var1 .	}	
+1553445
+SELECT ?var1  ?var2  ?var3  ?var4  ?var5  ?var6 	WHERE {	  BIND (  "string1" AS  ?var2 ).	  BIND (  <http://www.wikidata.org/entity/Q7432>  AS  ?var3 ).	  ?var1  <http://www.wikidata.org/prop/direct/P225>  ?var2 .	  ?var1  <http://www.wikidata.org/prop/direct/P105>  ?var3 .	}	
+1170047
+SELECT *	WHERE {	  ?var1  <http://www.wikidata.org/prop/direct/P932>  "".	}	
+963475
+SELECT *	WHERE {	  ?var1  <http://www.wikidata.org/prop/direct/P932>  "None".	}	
+767613
+SELECT ?var1  ?var2 	WHERE {	  VALUES (  ?var2  ) {	   (  "string1" )	   (  "string2" )	   (  "string3" )	   (  "string4" )	   (  "string5" )	   (  "string6" )	   (  "string7" )	   (  "string8" )	   (  "string9" )	   (  "string10" )	   (  "string11" )	   (  "string12" )	   (  "string13" )	   (  "string14" )	   (  "string15" )	   (  "string16" )	   (  "string17" )	   (  "string18" )	   (  "string19" )	   (  "string20" )	   (  "string21" )	   (  "string22" )	   (  "string23" )	   (  "string24" )	   (  "string25" )	   (  "string26" )	   (  "string27" )	   (  "string28" )	   (  "string29" )	   (  "string30" )	  }	  ?var1  <http://www.wikidata.org/prop/direct/P625>  ?var2 .	}
