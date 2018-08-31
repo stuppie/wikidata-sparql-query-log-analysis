@@ -20,4 +20,4 @@ zcat data/2017-678_uniq.tsv.gz | python3 count_entities.py P 2 prop_2_count.csv
 zcat data/2017-678_uniq.tsv.gz | python3 count_entities.py Q 2 item_2_count.csv
 
 # top 10 queries
-zcat data/2017-678_uniq.tsv.gz | python3 top_queried.py > top_queries.txt
+zcat data/2017-678_uniq.tsv.gz | python3 top_queries.py > top_queries.txt
